@@ -1,6 +1,6 @@
 
 /*
- * *** PLACE YOUR NAME / SECTION  HERE ***
+ * *** Will Bales / 002 ***
  *
  * Homework # 1 (Programming Assignment). This Java class defines some basic
  * manipulation operations on Linked-Lists and Stacks.
@@ -48,7 +48,7 @@ public class HW1 {
 
         /*
          * Method sortedInsert() - this method will insert a new node to the
-         * linked list containing the value specific in teh parameter 'data'.
+         * linked list containing the value specific in the parameter 'data'.
          * The newly inserted node will be inserted in sorted order within
          * the linked-list.
          *
@@ -86,10 +86,29 @@ public class HW1 {
          * found in the linked-list that is less than thr parameter value passed.
          */
         public void removeElementsLT ( int ltValue ) {
+          
+          // Here we are removing all nodes that are less than the value of ltValue so 
+          // the head of the linked list will be updated to the first node that is not 
+          // less than ltValue
+          while (this.head != null && this.head.data < ltValue) {
+            this.head = this.head.next;
+          }
+          
+          // Here we begin at the head of the linked list and prepare for the while loop
+          Node current = this.head;
 
-            // YOUR CODE GOES HERE
-
-            return;
+          // Here we are removing all nodes that are less than the value of ltValue until
+          // there are none left to check
+          while (current != null && current.next != null) {
+            // If the next node is less than ltValue, it is removed
+            if (current.next.data < ltValue) {
+              current.next = current.next.next;
+            // If the next node is not less than ltValue, we move to the next node
+            } else {
+              current = current.next;
+            }
+          }
+          return;
         }
 
 
@@ -100,8 +119,28 @@ public class HW1 {
 
         public void removeElement ( int value ) {
 
-            // YOUR CODE GOES HERE
+          
+          // Here we are removing all nodes that are less than the value of ltValue so
+          // the head of the linked list will be updated to the first node that is
+          // equal to ltValue
+          while (this.head != null && this.head.data == value) {
+            this.head = this.head.next;
+          }
+          
+          // Here we begin at the head of the linked list and prepare for the while loop
+          Node current = this.head;
 
+          // Here we are removing all nodes that are equal toltValue until
+          // there are none left to check
+          while (current != null && current.next != null) {
+            // If the next node is equal to ltValue, it is removed
+            if (current.next.data == value) {
+              current.next = current.next.next;
+            // If the next node is not equal to ltValue, we move to the next node
+            } else {
+              current = current.next;
+            }
+          }
             return;
         }
 
@@ -156,12 +195,30 @@ public class HW1 {
          * The method should utilize the provided Stack class.
          */
         public static boolean isPalindrome(String input) {
-
+            // Create a stack to hold the characters of the input string
             Stack<Character> stack = new Stack<>();
+            // Change the input string to lowercase and removes ALL of the spaces
             input = input.toLowerCase().replaceAll("\\s+", "");
+            
+            // Create two strings to hold the forward and backward versions of the input string
+            String forwardString = "";
+            String backwardString = "";
 
-            // Your CODE GOES HERE
-            return false;
+            // Use a for loop to push the characters of the input string onto the stack
+            for (int i = 0; i < input.length(); i++) {
+              stack.push(input.charAt(i));
+              forwardString += input.charAt(i);
+            }
+            // Use a while loop to pop the characters off the stack and add them to the backward string
+            while (!stack.isEmpty()) {
+              backwardString += stack.pop();
+            }
+
+            // Checking if what you pushed in is the same as what you popped out
+            boolean isPalindrome = forwardString.equals(backwardString);
+            
+            // Return the boolean value of isPalindrome
+            return isPalindrome;
         }
 
 
@@ -169,7 +226,7 @@ public class HW1 {
          * Method findLargestk() - This method will return the largest index
          * position in the stack for the value specified by the parameter 'k'.
          *
-         * Note that the bottom of the stack is index location 0. So it you push
+         * Note that the bottom of the stack is index location 0. So if you push
          * on to the stack the values 3 4 9 4 4 7 4, in that order. And you pass the
          * value '4' for the parameter k, then the largest index position is index
          * location 6.
@@ -182,8 +239,34 @@ public class HW1 {
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
 
-            // YOUR CODE GOES HERE
-            return -1;
+            // Create a temporary stack to hold the elements of the original stack
+            Stack<Integer> tempStack = new Stack<>();
+            // Create a variable to hold the largest index of the value k
+            int largestIndex = -1;
+
+            // Create a a top index variable to hold the index of the top of the stack
+            int topIndex = stack.size();
+
+            boolean found = false;
+            // Use a while loop to pop the elements off of the original stack and push them onto the temp stack
+            while (!stack.isEmpty() && !found) {
+              topIndex = stack.peek();
+              // Here we remove the top of the stack and save it in another stack
+              tempStack.push(stack.pop());
+              // If the top of the stack is equal to k, we have found the largest index of k
+              if (topIndex == k) {
+                found = true;
+                largestIndex = stack.size();
+              }
+            }
+            
+            // Use a while loop to push the elements back onto the original stack
+            while (!tempStack.isEmpty()) {
+              stack.push(tempStack.pop());
+            }
+            
+            // Return the value of the larges index of k
+            return largestIndex;
         }
 
     }  // End class Stacks
@@ -219,7 +302,7 @@ public class HW1 {
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
+        return 3;
     }
 
 
@@ -240,7 +323,7 @@ public class HW1 {
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
+        return 2;
     }
 
 }
